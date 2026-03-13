@@ -93,7 +93,34 @@ Verbose logging can be disabled at compile time with `-DENABLE_VERBOSE_LOG=OFF`.
 
 ## Graph Formats
 
-The input graph and resulting augmented graph use the [METIS ASCII graph format](http://people.sc.fsu.edu/~jburkardt/data/metis_graph/metis_graph.html). The cactus graph uses [GraphML](http://graphml.graphdrawing.org/) with custom vertex attribute `containedVertices` and edge attribute `weight`, as produced by [VieCut](https://github.com/KaHIP/VieCut).
+### Input graph (METIS)
+
+The input graph and resulting augmented graph use the [METIS ASCII graph format](http://people.sc.fsu.edu/~jburkardt/data/metis_graph/metis_graph.html). The first line contains the number of vertices and edges, and each subsequent line lists the neighbors of that vertex (1-indexed):
+
+```
+% Example: 4 vertices, 4 edges
+4 4
+2 3
+1 3 4
+1 2
+2
+```
+
+### Cactus graph (GraphML)
+
+The cactus graph uses the XML-based [GraphML](http://graphml.graphdrawing.org/) format with custom attributes: `containedVertices` for vertices and `weight` for edges. Cactus graphs are produced by [VieCut](https://github.com/KaHIP/VieCut) (`mincut <graph> cactus -t <output.xml>`). A cactus graph cannot be represented in METIS format because each cactus vertex contains a set of original graph vertices.
+
+### Link file
+
+An optional link file specifies candidate augmentation links, one per line in the format `source target weight`:
+
+```
+1 5 3.2
+2 7 1.8
+3 6 4.0
+```
+
+If no link file is provided, all possible links are considered.
 
 ## Graph Instances
 

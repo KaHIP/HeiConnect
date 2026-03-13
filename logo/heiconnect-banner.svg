@@ -24,51 +24,69 @@
   <rect x="50" y="180" width="130" height="26" rx="13" fill="#263238"/>
   <text x="115" y="197" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#80cbc4" text-anchor="middle">Part of KaHIP</text>
 
-  <!-- Right side: Graph with augmentation links -->
+  <!-- ============================================================ -->
+  <!-- Graph: two clusters, one bridge (min-cut=1), one augmentation -->
+  <!-- Left cluster: L1(460,60) L2(530,90) L3(470,150) L4(540,195) -->
+  <!-- Right cluster: R1(690,60) R2(760,90) R3(700,150) R4(740,195) -->
+  <!-- Bridge: L2-R1 (the single original crossing, min-cut = 1)    -->
+  <!-- Augmentation link: L4-R4 (makes min-cut = 2)                 -->
+  <!-- ============================================================ -->
 
-  <!-- Original graph nodes -->
-  <circle cx="480" cy="65" r="10" fill="#42a5f5"/>
-  <circle cx="540" cy="130" r="10" fill="#42a5f5"/>
-  <circle cx="470" cy="190" r="10" fill="#42a5f5"/>
-  <circle cx="620" cy="60" r="10" fill="#42a5f5"/>
-  <circle cx="690" cy="120" r="10" fill="#42a5f5"/>
-  <circle cx="680" cy="200" r="10" fill="#42a5f5"/>
-  <circle cx="760" cy="70" r="10" fill="#42a5f5"/>
-  <circle cx="770" cy="180" r="10" fill="#42a5f5"/>
+  <!-- Left cluster internal edges -->
+  <line x1="468" y1="65" x2="524" y2="85" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
+  <line x1="464" y1="68" x2="468" y2="143" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
+  <line x1="525" y1="96" x2="475" y2="144" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
+  <line x1="534" y1="98" x2="542" y2="187" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
+  <line x1="476" y1="156" x2="534" y2="190" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
 
-  <!-- Original edges (solid, blue-gray) -->
-  <line x1="488" y1="70" x2="534" y2="125" stroke="#42a5f5" stroke-width="2" opacity="0.45"/>
-  <line x1="476" y1="73" x2="466" y2="183" stroke="#42a5f5" stroke-width="2" opacity="0.45"/>
-  <line x1="546" y1="136" x2="474" y2="184" stroke="#42a5f5" stroke-width="2" opacity="0.45"/>
-  <line x1="628" y1="65" x2="684" y2="115" stroke="#42a5f5" stroke-width="2" opacity="0.45"/>
-  <line x1="696" y1="126" x2="684" y2="194" stroke="#42a5f5" stroke-width="2" opacity="0.45"/>
-  <line x1="626" y1="66" x2="754" y2="68" stroke="#42a5f5" stroke-width="2" opacity="0.45"/>
-  <line x1="766" y1="78" x2="772" y2="172" stroke="#42a5f5" stroke-width="2" opacity="0.45"/>
-  <line x1="686" y1="206" x2="764" y2="184" stroke="#42a5f5" stroke-width="2" opacity="0.45"/>
+  <!-- Right cluster internal edges -->
+  <line x1="698" y1="65" x2="754" y2="85" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
+  <line x1="694" y1="68" x2="698" y2="143" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
+  <line x1="755" y1="96" x2="705" y2="144" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
+  <line x1="764" y1="98" x2="744" y2="187" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
+  <line x1="706" y1="156" x2="734" y2="190" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
 
-  <!-- Minimum cut dashed line (separating left 3 from right 5) -->
-  <path d="M 575 30 Q 580 130, 570 235" stroke="#546e7a" stroke-width="1.5" fill="none" stroke-dasharray="6,5" opacity="0.5"/>
+  <!-- Bridge edge: L2(530,90) to R1(690,60) — the sole min-cut edge -->
+  <line x1="538" y1="86" x2="682" y2="62" stroke="#42a5f5" stroke-width="2" opacity="0.5"/>
 
-  <!-- Augmentation links (green dashed, crossing the cut) -->
-  <line x1="488" y1="60" x2="614" y2="58" stroke="#66bb6a" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.85"/>
-  <line x1="546" y1="125" x2="684" y2="118" stroke="#66bb6a" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.85"/>
-  <line x1="476" y1="194" x2="674" y2="202" stroke="#66bb6a" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.85"/>
+  <!-- Cut line (vertical, between clusters) -->
+  <path d="M 612 25 Q 616 130, 612 240" stroke="#546e7a" stroke-width="1.5" fill="none" stroke-dasharray="6,5" opacity="0.5"/>
 
-  <!-- Plus icons on augmentation links -->
-  <circle cx="550" cy="58" r="8" fill="#263238" stroke="#66bb6a" stroke-width="1.5"/>
-  <text x="550" y="63" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#66bb6a" text-anchor="middle">+</text>
-  <circle cx="615" cy="120" r="8" fill="#263238" stroke="#66bb6a" stroke-width="1.5"/>
-  <text x="615" y="125" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#66bb6a" text-anchor="middle">+</text>
-  <circle cx="575" cy="199" r="8" fill="#263238" stroke="#66bb6a" stroke-width="1.5"/>
-  <text x="575" y="204" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#66bb6a" text-anchor="middle">+</text>
+  <!-- Augmentation link: L4(540,195) to R4(740,195) — increases min-cut to 2 -->
+  <line x1="548" y1="195" x2="732" y2="195" stroke="#66bb6a" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- Plus icon on augmentation link -->
+  <circle cx="640" cy="195" r="9" fill="#263238" stroke="#66bb6a" stroke-width="1.5"/>
+  <text x="640" y="200" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#66bb6a" text-anchor="middle">+</text>
+
+  <!-- Nodes (drawn last so they sit on top of edges) -->
+  <!-- Left cluster -->
+  <circle cx="460" cy="60" r="10" fill="#42a5f5"/>
+  <circle cx="530" cy="90" r="10" fill="#42a5f5"/>
+  <circle cx="470" cy="150" r="10" fill="#42a5f5"/>
+  <circle cx="540" cy="195" r="10" fill="#42a5f5"/>
+
+  <!-- Right cluster -->
+  <circle cx="690" cy="60" r="10" fill="#42a5f5"/>
+  <circle cx="760" cy="90" r="10" fill="#42a5f5"/>
+  <circle cx="700" cy="150" r="10" fill="#42a5f5"/>
+  <circle cx="740" cy="195" r="10" fill="#42a5f5"/>
+
+  <!-- Connectivity labels -->
+  <text x="612" y="50" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#607d8b" text-anchor="middle">
+    min-cut = 1
+  </text>
+  <text x="640" y="225" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#66bb6a" text-anchor="middle" opacity="0.85">
+    min-cut &#x2192; 2
+  </text>
 
   <!-- Legend -->
-  <line x1="810" y1="85" x2="840" y2="85" stroke="#42a5f5" stroke-width="2.5"/>
-  <text x="848" y="89" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#a0a0a0">edges</text>
-  <line x1="810" y1="110" x2="840" y2="110" stroke="#66bb6a" stroke-width="2.5" stroke-dasharray="6,3"/>
-  <text x="848" y="114" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#a0a0a0">links</text>
-  <line x1="810" y1="135" x2="840" y2="135" stroke="#546e7a" stroke-width="1.5" stroke-dasharray="4,4"/>
-  <text x="848" y="139" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#a0a0a0">cut</text>
+  <line x1="815" y1="85" x2="845" y2="85" stroke="#42a5f5" stroke-width="2.5"/>
+  <text x="853" y="89" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#a0a0a0">edges</text>
+  <line x1="815" y1="110" x2="845" y2="110" stroke="#66bb6a" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="853" y="114" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#a0a0a0">link</text>
+  <line x1="815" y1="135" x2="845" y2="135" stroke="#546e7a" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <text x="853" y="139" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#a0a0a0">cut</text>
 
   <!-- Bottom text -->
   <text x="620" y="248" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#546e7a" text-anchor="middle">
