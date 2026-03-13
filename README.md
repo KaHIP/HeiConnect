@@ -1,76 +1,133 @@
-HeiConnect v1.0 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9d0d08ba6b2d42699ab74fe5f9697bb9)](https://www.codacy.com/gh/KaHIP/KaHIP/dashboard?utm_source=github.com&utm_medium=referral&utm_content=KaHIP/KaHIP&utm_campaign=Badge_Grade)
+HeiConnect v1.0
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![C++](https://img.shields.io/badge/C++-17-blue.svg)](https://isocpp.org/)
+[![CMake](https://img.shields.io/badge/CMake-3.14+-064F8C.svg)](https://cmake.org/)
+[![Linux](https://img.shields.io/badge/Linux-supported-success.svg)](https://github.com/KaHIP/HeiConnect)
+[![GitHub Stars](https://img.shields.io/github/stars/KaHIP/HeiConnect)](https://github.com/KaHIP/HeiConnect/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/KaHIP/HeiConnect)](https://github.com/KaHIP/HeiConnect/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/KaHIP/HeiConnect)](https://github.com/KaHIP/HeiConnect/commits)
+[![SEA 2024](https://img.shields.io/badge/SEA'24-10.4230/LIPIcs.SEA.2024.11-blue)](https://doi.org/10.4230/LIPIcs.SEA.2024.11)
+[![arXiv](https://img.shields.io/badge/arXiv-2402.07753-b31b1b.svg)](https://arxiv.org/abs/2402.07753)
+[![Heidelberg University](https://img.shields.io/badge/Heidelberg-University-c1002a)](https://www.uni-heidelberg.de)
 =====
 
-## Weighted Connectivity Augmentation Algorithms
+<p align="center">
+  <img src="https://raw.githubusercontent.com/KaHIP/HeiConnect/main/logo/heiconnect-banner.png" alt="HeiConnect Logo" width="900"/>
+</p>
 
-Increasing the connectivity of a graph is a pivotal challenge in robust network design. The weighted connectivity augmentation problem is a common version of the problem that takes link costs into consideration. The problem is then to find a minimum cost subset of a given set of weighted links that increases the connectivity of a graph by one when the links are added to the edge set of the input instance. Here, we give a first implementation of recently discovered better-than-2 approximations. Furthermore, we propose three new heuristic and one exact approach. These include a greedy algorithm considering link costs and the number of unique cuts covered, an approach based on minimum spanning trees and a local search algorithm that may improve a given solution by swapping links of paths. Our exact approach uses an ILP formulation with efficient cut enumeration as well as a fast initialization routine.
+**HeiConnect** is a library of algorithms for the weighted connectivity augmentation problem on undirected graphs. Part of the [KaHIP](https://github.com/KaHIP) organization.
 
-## Download
+| | |
+|:--|:--|
+| **What it solves** | Find a minimum-cost set of links that increases the edge connectivity of a graph by one |
+| **Algorithms** | Greedy heuristic (GWC), MST-Connect, local search, ILP-based exact, LP-based approximations |
+| **Interfaces** | CLI |
+| **Requires** | C++17 compiler, CMake 3.14+, [Gurobi](https://www.gurobi.com/solutions/gurobi-optimizer) >= 11.0.2, [Boost](https://boost.org) >= 1.83, [LEMON](https://lemon.cs.elte.hu/trac/lemon) >= 1.3.1 |
 
-You can download HeiConnect with the following command line:
+## Quick Start
 
-```console
-git clone --recursive git@github.com:HeiConnect/HeiConnect.git
-```
-
-## Building
-
-The project can be build using CMake. Make sure that the [Gurobi Optimizer](https://www.gurobi.com/solutions/gurobi-optimizer) (tested >= 11.0.2) and the [Boost](https://boost.org) (tested >= 1.83) and [LEMON](https://lemon.cs.elte.hu/trac/lemon) (tested >= 1.3.1) graph libraries can be found on your system. Gurobi is used to solve ILPs and LPs, Boost is mainly used to compute maximum flows while LEMON is used to compute a maximum weighted matching due to bugs in the Boost graph library.
-
-```sh
+```bash
+git clone --recursive https://github.com/KaHIP/HeiConnect.git && cd HeiConnect
 ./build.sh
 ```
 
-Verbose logging can be disabled at compile time with the CMake flag `-DENABLE_VERBOSE_LOG=OFF` for code optimization.
+Verbose logging can be disabled at compile time with `-DENABLE_VERBOSE_LOG=OFF`.
 
-## Running
+### Run
 
-The main binary is `solver`, i.e. `deploy/solver`.
+```bash
+# Compute cactus graph using VieCut
+./extern/VieCut/build/mincut network.graph cactus -t network.xml
 
-Required arguments are
+# Greedy Weight-Coverage heuristic
+./deploy/solver -g network.graph -c network.xml -a gwc -o augmented.graph
 
-- `--graph <path>`: The path to the original graph file (in the [METIS graph format](http://people.sc.fsu.edu/~jburkardt/data/metis_graph/metis_graph.html))
-- `--cactus <path>`: The path to the cactus graph file ([GraphML](http://graphml.graphdrawing.org/) xml format, i.e. created by [VieCut](https://github.com/VieCut/VieCut), `mincut <graph> cactus -t <cactus>`)
-- `--algorithm <algorithm>`: the algorithm to use
+# MST-Connect with local search
+./deploy/solver -g network.graph -c network.xml -a mst-connect-ls --depth 3 -o augmented.graph
 
-Optional arguments include:
+# Exact ILP solver
+./deploy/solver -g network.graph -c network.xml -a eilp --use-initial -o augmented.graph
+```
 
-- `--verbose`: Enable verbose logging
-- `--links`: Specify a file containing one link per line (`source target weight`)
-- `--output`: Specify an output file where the augmented graph should be written to
-- `--output-links`: Output only links in the solution, not the whole augmented graph
+---
 
-Examples of how to use our different algorithms can be found in `run_examples.sh`.
+## Command Line Usage
+
+```
+./deploy/solver --graph <graph> --cactus <cactus> --algorithm <algorithm> [options]
+```
+
+### Required Arguments
+
+| Option | Description |
+|:-------|:-----------|
+| `--graph <path>` | Input graph in [METIS format](http://people.sc.fsu.edu/~jburkardt/data/metis_graph/metis_graph.html) |
+| `--cactus <path>` | Cactus graph in [GraphML](http://graphml.graphdrawing.org/) format (created by [VieCut](https://github.com/KaHIP/VieCut)) |
+| `--algorithm <alg>` | Algorithm to use (see table below) |
+
+### Optional Arguments
+
+| Option | Description |
+|:-------|:-----------|
+| `--verbose` | Enable verbose logging |
+| `--links <path>` | Link file: one link per line (`source target weight`) |
+| `--output <path>` | Output file for the augmented graph |
+| `--output-links` | Output only the selected links, not the full augmented graph |
 
 ### Algorithms
 
-| Name             | Description                                                                     | Parameters                                                                                                                               | Recommended for instances with |
-| ---------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| `gwc`            | Greedy Weight-Coverage Heuristic using dynamic cactus data structure and bounds | `--sampling=<0,1>` (`1` enables sampling)                                                                                                | small link costs (generated)   |
-| `mst-connect`    | MST-Connect Algorithm                                                           | none                                                                                                                                     | large link costs               |
-| `mst-connect-ls` | Local Search on MST-Connect Algorithm solution                                  | `--depth=<int>` (max. length of alternating paths), `--cache` (cache invalid alternating paths), `--trees=<int>` (number of MSTs to use) | large link costs               |
-| `eilp`           | Optimal ILP                                                                     | `--use-initial` (Use `mst-connect` as initial solution)                                                                                  | small link costs (real world)  |
-| `apx2lp`         | LP-based 2-approximation                                                        | none                                                                                                                                     |
-| `apx1ln2e`       |                                                                                 | `--epsilon=<float>` (set epsilon, default 0.15)                                                                                          |
-| `apx1.5e`        |                                                                                 | `--epsilon=<float>` (set epsilon, default 0.15)                                                                                          |
-| `smc`            | SMC implementation using dynamic graph data structure                           | none                                                                                                                                     |
-| `fsm`            | FSM implementation using dynamic graph data structure                           | none                                                                                                                                     |
-| `hbd`            | HBD implementation using dynamic graph data structure                           | none                                                                                                                                     |
+| Algorithm | Description | Extra Parameters | Best for |
+|:----------|:-----------|:-----------------|:---------|
+| `gwc` | Greedy Weight-Coverage heuristic with dynamic cactus and bounds | `--sampling=<0,1>` | small link costs (generated) |
+| `mst-connect` | MST-Connect algorithm | | large link costs |
+| `mst-connect-ls` | Local search on MST-Connect solution | `--depth=<int>`, `--cache`, `--trees=<int>` | large link costs |
+| `eilp` | Exact ILP solver | `--use-initial` | small link costs (real-world) |
+| `apx2lp` | LP-based 2-approximation | | |
+| `apx1ln2e` | Better-than-2 approximation | `--epsilon=<float>` (default 0.15) | |
+| `apx1.5e` | Better-than-2 approximation | `--epsilon=<float>` (default 0.15) | |
+| `smc` | SMC with dynamic graph data structure | | |
+| `fsm` | FSM with dynamic graph data structure | | |
+| `hbd` | HBD with dynamic graph data structure | | |
 
-### Graph formats
+---
 
-This solver uses different graphs formats. The input graph and the resulting augmented graph are in the [METIS ASCII graph format](http://people.sc.fsu.edu/~jburkardt/data/metis_graph/metis_graph.html). The first line contains the number of vertices and edges, and each subsequent line lists the neighbors of a vertex. A cactus graph cannot be represented in such a simple format because each vertex of a cactus graph contains a set of vertices of the input graph. Therefore, the XML based [GraphML](http://graphml.graphdrawing.org/) format is used, that allows the definition of custom attributes for vertices and edges. For vertices, `containedVertices` is used for vertices, and `weight` for edge weights, as in the output of [VieCut](https://github.com/VieCut/VieCut).
+## Graph Formats
 
-### Graph instances
+The input graph and resulting augmented graph use the [METIS ASCII graph format](http://people.sc.fsu.edu/~jburkardt/data/metis_graph/metis_graph.html). The cactus graph uses [GraphML](http://graphml.graphdrawing.org/) with custom vertex attribute `containedVertices` and edge attribute `weight`, as produced by [VieCut](https://github.com/KaHIP/VieCut).
 
-The generated graphs mentioned in the paper are included in `graphs/generated`. A small subset of the graphs from the 10th DIMACS Implementation Challenge is included as well, the complete set can be found at https://dimacs10.github.io/downloads.shtml.
+## Graph Instances
 
-### Licence
+Generated instances from the paper are in `graphs/generated`. A subset of 10th DIMACS Implementation Challenge graphs is also included; the full set is available at [dimacs10.github.io](https://dimacs10.github.io/downloads.shtml).
 
-The program is licenced under MIT licence.
-If you publish results using our algorithms, please acknowledge our work by quoting the following paper:
-_Fonseca, M., Großmann, E., Joos, F., Möller, T. and Schulz C. 2024. Engineering Weighted Connectivity Augmentation Algorithms. arXiv preprint [arXiv:1708.06127.](https://arxiv.org/abs/2402.07753)_
+---
+
+## Requirements
+
+- C++17 compiler (GCC 7+ or Clang 11+)
+- CMake 3.14+
+- [Gurobi Optimizer](https://www.gurobi.com/solutions/gurobi-optimizer) >= 11.0.2
+- [Boost](https://boost.org) >= 1.83 (max-flow)
+- [LEMON](https://lemon.cs.elte.hu/trac/lemon) >= 1.3.1 (max-weight matching)
+
+---
+
+## Related Projects
+
+| Project | Description |
+|:--------|:------------|
+| [KaHIP](https://github.com/KaHIP/KaHIP) | Karlsruhe High Quality Graph Partitioning |
+| [VieCut](https://github.com/KaHIP/VieCut) | Shared-memory parallel minimum cut algorithms |
+| [HeiCut](https://github.com/KaHIP/HeiCut) | Exact minimum cuts in hypergraphs |
+
+---
+
+## Licence
+
+HeiConnect is free software provided under the MIT License.
+
+If you publish results using our algorithms, please cite:
+
+> Fonseca, M., Grossmann, E., Joos, F., Moller, T. and Schulz, C. (2024). Engineering Weighted Connectivity Augmentation Algorithms. *22nd International Symposium on Experimental Algorithms (SEA 2024)*, LIPIcs 301, pp. 11:1--11:22.
 
 ```bibtex
 @inproceedings{DBLP:conf/wea/FarajGJM024,
