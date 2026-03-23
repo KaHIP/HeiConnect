@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <radialGradient id="glowL" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#42a5f5" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#42a5f5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowR" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#42a5f5" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#42a5f5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowAug" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#66bb6a" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#66bb6a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="640" fill="url(#bg)"/>
+
+  <!-- Cluster glows -->
+  <ellipse cx="210" cy="300" rx="200" ry="250" fill="url(#glowL)"/>
+  <ellipse cx="520" cy="300" rx="200" ry="250" fill="url(#glowR)"/>
+
+  <!-- ============================================================ -->
+  <!-- Graph: two clusters with bridge and augmentation             -->
+  <!-- Left cluster: L1(110,130) L2(250,170) L3(130,310) L4(200,430) L5(280,350) -->
+  <!-- Right cluster: R1(460,130) R2(560,200) R3(480,340) R4(540,440) R5(600,300) -->
+  <!-- Bridge: L2-R1 (the single original crossing, min-cut = 1)   -->
+  <!-- Augmentation: L4-R4 (makes min-cut = 2)                     -->
+  <!-- ============================================================ -->
+
+  <!-- Left cluster internal edges -->
+  <line x1="118" y1="138" x2="242" y2="164" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="114" y1="140" x2="134" y2="302" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="248" y1="178" x2="138" y2="304" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="255" y1="178" x2="278" y2="342" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="138" y1="318" x2="272" y2="344" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="140" y1="318" x2="196" y2="422" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="276" y1="358" x2="208" y2="424" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+
+  <!-- Right cluster internal edges -->
+  <line x1="468" y1="138" x2="552" y2="194" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="464" y1="140" x2="484" y2="332" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="558" y1="208" x2="488" y2="334" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="566" y1="208" x2="596" y2="292" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="488" y1="348" x2="592" y2="302" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="490" y1="348" x2="536" y2="432" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+  <line x1="598" y1="308" x2="546" y2="434" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+
+  <!-- Bridge edge: L2(250,170) to R1(460,130) - the sole min-cut edge -->
+  <line x1="260" y1="166" x2="450" y2="134" stroke="#42a5f5" stroke-width="2.5" opacity="0.45"/>
+
+  <!-- Cut line (vertical, between clusters) -->
+  <path d="M 355 50 Q 362 300, 355 570" stroke="#546e7a" stroke-width="2" fill="none" stroke-dasharray="8,6" opacity="0.5"/>
+
+  <!-- Augmentation link: L4(200,430) to R4(540,440) - increases min-cut to 2 -->
+  <line x1="212" y1="432" x2="528" y2="442" stroke="#66bb6a" stroke-width="3" stroke-dasharray="10,5" opacity="0.85"/>
+
+  <!-- Plus icon on augmentation link -->
+  <circle cx="370" cy="437" r="12" fill="#263238" stroke="#66bb6a" stroke-width="2"/>
+  <text x="370" y="443" font-family="'DejaVu Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#66bb6a" text-anchor="middle">+</text>
+
+  <!-- Nodes: Left cluster (blue) -->
+  <circle cx="110" cy="130" r="14" fill="#42a5f5"/>
+  <circle cx="250" cy="170" r="14" fill="#42a5f5"/>
+  <circle cx="130" cy="310" r="14" fill="#42a5f5"/>
+  <circle cx="200" cy="430" r="14" fill="#42a5f5"/>
+  <circle cx="280" cy="350" r="14" fill="#42a5f5"/>
+
+  <!-- Nodes: Right cluster (blue) -->
+  <circle cx="460" cy="130" r="14" fill="#42a5f5"/>
+  <circle cx="560" cy="200" r="14" fill="#42a5f5"/>
+  <circle cx="480" cy="340" r="14" fill="#42a5f5"/>
+  <circle cx="540" cy="440" r="14" fill="#42a5f5"/>
+  <circle cx="600" cy="300" r="14" fill="#42a5f5"/>
+
+  <!-- Connectivity labels -->
+  <text x="355" y="85" font-family="'DejaVu Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#607d8b" text-anchor="middle">
+    min-cut = 1
+  </text>
+  <text x="370" y="478" font-family="'DejaVu Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#66bb6a" text-anchor="middle" opacity="0.85">
+    min-cut &#x2192; 2
+  </text>
+
+  <!-- Title -->
+  <text x="740" y="220" font-family="'DejaVu Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="700">
+    <tspan fill="#ef5350">Hei</tspan><tspan fill="#e0e0e0">Connect</tspan>
+  </text>
+
+  <!-- Separator -->
+  <line x1="740" y1="245" x2="1220" y2="245" stroke="#334155" stroke-width="2"/>
+
+  <!-- Subtitle -->
+  <text x="740" y="290" font-family="'DejaVu Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="26" fill="#90a4ae">
+    Weighted Connectivity Augmentation
+  </text>
+
+  <!-- Tagline -->
+  <text x="740" y="350" font-family="'DejaVu Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" fill="#607d8b">
+    Heuristic, Local Search, ILP-based Exact
+  </text>
+  <text x="740" y="378" font-family="'DejaVu Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" fill="#607d8b">
+    algorithms for connectivity augmentation
+  </text>
+
+  <!-- Badge: Part of KaHIP -->
+  <rect x="740" y="415" width="150" height="30" rx="15" fill="#263238"/>
+  <text x="815" y="435" font-family="'DejaVu Sans', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#80cbc4" text-anchor="middle">Part of KaHIP</text>
+
+  <!-- Legend -->
+  <circle cx="750" cy="520" r="8" fill="#42a5f5"/>
+  <text x="766" y="525" font-family="'DejaVu Sans', sans-serif" font-size="15" fill="#a0a0a0">nodes</text>
+
+  <line x1="830" y1="520" x2="860" y2="520" stroke="#42a5f5" stroke-width="2.5"/>
+  <text x="870" y="525" font-family="'DejaVu Sans', sans-serif" font-size="15" fill="#a0a0a0">edges</text>
+
+  <line x1="935" y1="520" x2="965" y2="520" stroke="#66bb6a" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="975" y="525" font-family="'DejaVu Sans', sans-serif" font-size="15" fill="#a0a0a0">augmentation</text>
+
+  <line x1="1100" y1="520" x2="1130" y2="520" stroke="#546e7a" stroke-width="2" stroke-dasharray="5,4"/>
+  <text x="1140" y="525" font-family="'DejaVu Sans', sans-serif" font-size="15" fill="#a0a0a0">cut</text>
+
+  <!-- Bottom text -->
+  <text x="355" y="610" text-anchor="middle" font-family="'DejaVu Sans', sans-serif" font-size="14" fill="#546e7a">
+    weighted connectivity augmentation algorithms
+  </text>
+</svg>
